@@ -45,7 +45,7 @@ namespace Skyfall
 
         public static async Task Beep(Tone tone)
         {
-            //new ToneGenerator(Stream.System, 100).StartTone(tone, 1000);
+            new ToneGenerator(Stream.System, 100).StartTone(tone, 1000);
             await Task.Delay(1000);
         }
 

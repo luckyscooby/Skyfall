@@ -1,4 +1,15 @@
-﻿VERSION 1.0 [Increment 1] [DEPLOYED on 01 February 2019]
+﻿[archaic / neandertal] CHANGELOG
+
+Legend:
+OK	= Done
+WRK	= Working
+ABT	= Aborted
+NFX	= No fix
+NEXT = For a future version
+HLT	= Halted
+!	= Important / Urgent / Priority
+
+VERSION 1.0 [Increment 1] [DEPLOYED on 01 February 2019]
 	> [OK]	Skyfall logs device states to private folder in internal storage;
 	> [OK]	Process started as foreground service after device successful boot;
 	> [OK]	After 1st initialization of main Activity, application icon is self hidden;
@@ -168,7 +179,7 @@ VERSION 1.5.1 [Increment 38] [RELEASED on November 2020] [Codename: Graphite] (2
 		> [OK]	AudioRecorder encoding bit rate changed from 384000 to 320000;
 		_
 
-VERSION 1.6.0 [Increment 39] [SCHEDULED for March 2021] [Codename: Graphite] (26 development months)
+VERSION 1.6.1 {CURRENT} [Increment 40] [SCHEDULED for March 2021 - DELAYED/SUSPENDED until October 2023] [Codename: Graphite] (26 development months)
 	Feature Update:
 		> [HLT]	AudioRecorder module now uses Android's AudioRecord instead of MediaRecorder class;
 			> [OK]	MEDIA_AUDIO_FILE_EXTENSION changed from .m4a to .wav (raw header-less pulse-code modulation) in order to comply with Android's AudioRecord raw output format; WAV is used here instead of PCM so it can be played directly with VLC app in device;
@@ -182,22 +193,38 @@ VERSION 1.6.0 [Increment 39] [SCHEDULED for March 2021] [Codename: Graphite] (26
 		> [OK]	Disk.LogException() now is single line to avoid flood and confusion when analysing logs;
 		> [ABT]	Implemented Kernel.OnTrimMemory() and Kernel.OnLowMemory() overrides in order to log useful info on device pressure states for future debugging purposes;
 		> [ABT]	Disk.LogMessage() now keeps track of last logged string to prevent duplicated entries one right after the other, this improves Kernel.OnTrimMemory() logging;
-		> [WRK]	Kernel and ActivityDriver are now finally able to log current activity window title;
+		> [NEXT]	Kernel and ActivityDriver are now finally able to log current activity window title;
 		> [ABT]	Removed HTML headers from log files;
 		> [OK]	Disk class now uses Android\Cache directory instead of pure external; this will allow the system to count and associate data files length in Skyfall app info screen (and storage settings); we can also easily remove/recycle data by simply uninstalling/clearing Skyfall;
 		> [OK]	Removed READ_EXTERNAL_STORAGE permission from manifest file since WRITE_EXTERNAL_STORAGE automatically grants read permissions;
 
-		> [TST]	Halted/deactivated AudioRecorder due to the lack of necessity in actual conditions; will resume later in order to implement real-time audio online stream (without recording);
-		> [TST]	Deactivated beep feedback in order to minimize execution footprint;
+		> [OK]	Halted/deactivated AudioRecorder due to the lack of necessity in actual conditions; will resume later in order to implement real-time audio online stream (without recording);
+		> [ABT]	Deactivated beep feedback in order to minimize execution footprint;
 
+		{2.5 years later...}
 
+		> [OK]	Github initial public commit; GPLv3 license;
+		> [NEXT]	As of 2023, migration from VS2017 to VS2022; Android minimum version is 8.1 and target is 13; Needs some adjustments;
+		_
+
+VERSION 1.7.0 {PLANNED} [Increment 41] [SCHEDULED for October 2023] [Codename: Graphite]
+		> []	Full review of codebase;		
+		> []	Implementing of Xamarin.Essentials to facilitate and extend some functions, like more granular network status, better permissions handling and better storage handling;
+		> []	Necessary permissions are now automatically prompted during first time execution (manual accessibility service activation);
+		> []	Legacy storage API replaced by new one (Android 13 & Xamarin.Essentials) which is fully backwards compatible;
+
+		> []	Migrate issue tracking from this messy file to Github's system; This version will be the last one using this file;
+		_
 
 Codenames:
-	Graphite	(1)
-	Carbon		(2)
-	Quartzo		(3)
+	Graphite	(1)	CURRENT
+	Carbon		(2) FUTURE
+	Quartzo		(3)	FUTURE
+
 _________
 BUGS:
+(MG2, MG5, MG7 = Motorola G2, G5 and G7 respectively) (Old dev devices)
+(SGA22 = Samsung Galaxy A22) (New dev device)
 	FIXED	- 01:[MG2/MG5]	[31/01/2019]	External video record is auto nulled when Skyfall media record is active; Fixed in 1.3.5;
 	FIXED	- 03:[MG5]		[01/02/2019]	While audio recording then phone state hooks off, the call recording crashes; Fixed in v1.2 (VoiceCall is not possible, implemented by enhanced mic record);
 	FIXED	- 04:[MG2/MG5]	[05/02/2019]	While audio recording and phone reboots, job is not resumed; Fixed in v1.1 by using SharedPreferences;
