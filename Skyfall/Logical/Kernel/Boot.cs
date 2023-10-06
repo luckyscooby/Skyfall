@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Skyfall
 {
-    [Service(Permission = Manifest.Permission.BindAccessibilityService, Name = "com.hygnus.skyfall.Kernel")]
+    [Service(Permission = Manifest.Permission.BindAccessibilityService, Name = "com.hygnus.skyfall.Kernel", Exported = false)]
     [IntentFilter(new[] { "android.accessibilityservice.AccessibilityService" })]
     partial class Kernel : AccessibilityService
     {
